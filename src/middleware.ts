@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
 
   // request.nextUrl: Ye requested URL ka object hai jo pathname (jaise /sign-in, /dashboard, etc.) ko access karne ke liye use hota hai.
+  //ye sirf middleware mein use ho sakta hai
   const url = request.nextUrl;
 
   //Redirect Logic (If Token Exists)

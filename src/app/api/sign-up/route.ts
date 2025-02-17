@@ -10,6 +10,18 @@ import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 //Request is a blueprint/class provided by the browser.
 //request is the actual object you receive in a server-side function or API route.
 export async function POST(request: Request) {
+  // if (request.method !== "POST") {
+  //   return Response.json(
+  //     {
+  //       success: false,
+  //       message: "only POST method is allowed",
+  //     },
+  //     {
+  //       status: 405,
+  //     }
+  //   );
+  // }
+
   await dbConnect();
   try {
     //always await data fetching from json
