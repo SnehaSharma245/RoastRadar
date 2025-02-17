@@ -17,7 +17,7 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 }
-
+//alternative way to modify interface jwt in next-auth
 declare module "next-auth/jwt" {
   interface JWT {
     _id?: string;

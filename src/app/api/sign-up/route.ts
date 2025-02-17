@@ -7,10 +7,13 @@ import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
 //(request: Request)
 // Yeh function ka parameter hai, jo HTTP request object ko represent karta hai.
+//Request is a blueprint/class provided by the browser.
+//request is the actual object you receive in a server-side function or API route.
 export async function POST(request: Request) {
   await dbConnect();
   try {
     //always await data fetching from json
+    //in request .json() is an instance method while in response it is class method , hence Response.json() is used to return a response while request.json() is used to fetc data from json body
     const { username, email, password } = await request.json();
 
     // MongoDB se check kar rahe hain ki koi user exists karta hai jiska given username ho aur woh verified (isVerified: true) ho.

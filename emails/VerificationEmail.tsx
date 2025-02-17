@@ -9,11 +9,13 @@ import {
   Text,
 } from "@react-email/components";
 
+// Yeh TypeScript interface define karta hai ki is component ko kya properties chahiye:
 interface VerificationEmailProps {
   username: string;
   otp: string;
 }
 
+//destructuring props and defining their type
 export default function VerificationEmail({
   username,
   otp,

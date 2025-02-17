@@ -81,6 +81,14 @@ const UserSchema: Schema<User> = new Schema({
   messages: [MessageSchema],
 });
 
+//mongoose.Model
+// Yeh ek TypeScript ka type/interface hai jo batata hai ki koi bhi model ka structure kaisa hoga.
+
+// mongoose.model
+// Yeh ek function hai jo model banane ke liye use hota hai.
+
+//mongoose.models
+// Yeh ek object hai jisme saare already created models store hote hain.
 const UserModel =
   (mongoose.models.User as mongoose.Model<User>) ||
   mongoose.model<User>("User", UserSchema);

@@ -11,8 +11,7 @@ type ConnectionObject = {
 
 const connection: ConnectionObject = {};
 
-// Yeh batata hai ki function ek Promise return karega jo kuch value return karega.
-//ts mein void ka matlab hai hume return value pata nhi hai
+// Yeh batata hai ki function ek Promise return karega jo kuch value return nhi karega.
 //ts mein return type of function : lagane ke baad define karte hai
 async function dbConnect(): Promise<void> {
   if (connection.isConnected) {
