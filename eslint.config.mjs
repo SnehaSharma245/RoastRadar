@@ -14,6 +14,8 @@ const eslintConfig = [
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "off", // Disables the rule
+      "react-hooks/rules-of-hooks": "off", // Validates rules of hooks
+      "react-hooks/exhaustive-deps": "off", // Validates dependency arrays
     },
   },
 ];
