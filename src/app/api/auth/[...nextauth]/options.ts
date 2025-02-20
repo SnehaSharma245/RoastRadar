@@ -70,6 +70,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     //store maximum data in token
     //we can not directly access the properties of our custom user, so redefine the User values in tyes > next-auth.d.ts
+
+    // jwt ke token mein user ki sari details daali hai
     async jwt({ token, user }) {
       if (user) {
         token._id = user._id?.toString();
@@ -79,6 +81,8 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
+
+    //token mein user ki sab details hai toh vha se leke session mein ek objet banaya user usme pura user data daala jisse session mein bhi pura user data ho
     async session({ session, token }) {
       if (token) {
         session.user._id = token._id;
