@@ -25,21 +25,17 @@ export async function GET(request: Request) {
   // Convert the user ID (which is a string in the model) into a Mongoose ObjectId.
   // Aggregation pipelines require proper ObjectId types for queries involving `_id`.
   const userId = new mongoose.Types.ObjectId(user._id);
+  // console.log("UserId: ", userId);
 
   try {
     // Aggregate the user's messages using MongoDB's aggregation pipeline.
     const user = await UserModel.aggregate([
-      { $match: { id: userId } }, // Match the user by their unique ID.
-      { $unwind: "$messages" }, // Deconstruct the `messages` array into individual documents.
-      { $sort: { "messages.createdAt": -1 } }, // Sort messages by their `createdAt` field in descending order.
-      {
-        $group: {
-          _id: "$_id", // Group messages back by the user ID.
-          messages: { $push: "$messages" }, // Push sorted messages back into an array.
-        },
-      },
+      { $match: { _id: userId } },
+      { $unwind: { path: "$messages", preserveNullAndEmptyArrays: true } }, // Preserve empty arrays
+      { $sort: { "messages.createdAt": -1 } },
+      { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
-
+    console.log("User", user);
     // If no user or messages are found, return a 401 Unauthorized response.
     if (!user || user.length === 0) {
       return Response.json(

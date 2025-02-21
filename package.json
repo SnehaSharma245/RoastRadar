@@ -22,6 +22,8 @@
     "bcryptjs": "^3.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "embla-carousel-autoplay": "^8.5.2",
+    "embla-carousel-react": "^8.5.2",
     "lucide-react": "^0.475.0",
     "mogoose": "^0.0.1-security",
     "mongoose": "^8.10.1",

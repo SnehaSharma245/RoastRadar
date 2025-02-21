@@ -53,7 +53,7 @@ function page() {
       password: data.password,
       redirect: false,
     });
-    console.log(result);
+    // console.log(result);
     if (result?.error) {
       if (result.error == "CredentialsSignin") {
         toast({

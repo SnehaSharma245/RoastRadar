@@ -19,6 +19,7 @@ function page() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
+  const [baseUrl, setBaseUrl] = useState<string>("");
 
   const { toast } = useToast();
 
@@ -61,7 +62,7 @@ function page() {
       setIsLoading(true);
       setIsSwitchLoading(false);
       try {
-        const response = await axios.get<ApiResponse>("?api/get-messages");
+        const response = await axios.get<ApiResponse>("/api/get-messages");
         setMessages(response.data.messages || []);
         if (refresh) {
           toast({
@@ -116,10 +117,16 @@ function page() {
     }
   };
 
-  const { username } = session.user as User;
-
+  const username: string = (session?.user as User)?.username as string;
+  // console.log(username);
   //imp
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Access `window` safely
+      setBaseUrl(`${window.location.protocol}//${window.location.host}`);
+    }
+  }, []);
+
   const profileUrl = `${baseUrl}/u/${username}`;
 
   const copyToClipboard = () => {
@@ -182,7 +189,7 @@ function page() {
         {messages.length > 0 ? (
           messages.map((message) => (
             <MessageCard
-              key={message._id}
+              key={message._id as string}
               message={message}
               onMessageDelete={handleDeleteMessage}
             />
