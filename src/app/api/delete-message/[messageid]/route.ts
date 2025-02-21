@@ -8,14 +8,15 @@ export async function DELETE(
   request: Request,
   { params }: { params: { messageid: string } }
 ) {
-  const messageId = params.messageid;
+  const { messageid } = await params;
+  console.log(messageid);
   await dbConnect(); // Establish a connection to the database.
 
   const session = await getServerSession(authOptions); // Get the current authenticated session.
   const user: User = session?.user as User; // Extract the user from the session and cast it to the User type.
 
   // Check if the user is authenticated; if not, return a 401 Unauthorized response.
-  if (!session || !session.user) {
+  if (!session || !user) {
     return Response.json(
       {
         success: false,
@@ -28,7 +29,7 @@ export async function DELETE(
   try {
     const updateResult = await UserModel.updateOne(
       { _id: user._id },
-      { $pull: { messages: { _id: messageId } } }
+      { $pull: { messages: { _id: messageid } } }
     );
 
     if (updateResult.modifiedCount === 0) {

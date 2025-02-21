@@ -35,7 +35,7 @@ export async function GET(request: Request) {
       { $sort: { "messages.createdAt": -1 } },
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
-    console.log("User", user);
+    // console.log("User", user);
     // If no user or messages are found, return a 401 Unauthorized response.
     if (!user || user.length === 0) {
       return Response.json(
