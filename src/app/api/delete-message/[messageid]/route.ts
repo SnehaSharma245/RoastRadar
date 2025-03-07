@@ -2,14 +2,19 @@ import { getServerSession } from "next-auth"; // Importing the function to fetch
 import { authOptions } from "../../auth/[...nextauth]/options"; // Authentication options for NextAuth.
 import dbConnect from "@/lib/dbConnet"; // Utility function to connect to the database.
 import UserModel from "@/model/User"; // User model for MongoDB operations.
-import { User } from "next-auth"; // Importing the User type from NextAuth.
-import { NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server"; // Import NextRequest and NextResponse
+import { User as NextAuthUser } from "next-auth"; // Import the base User type
+
+// Extend the User type to include _id
+interface User extends NextAuthUser {
+  _id: string;
+}
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { messageid: string } }
+  request: NextRequest, // Use NextRequest
+  { params }: { params: { [key: string]: string } } // Correct type for params
 ): Promise<Response> {
-  const { messageid } = params;
+  const { messageid } = params; // Destructure messageid from params
   console.log(messageid);
   await dbConnect(); // Establish a connection to the database.
 
@@ -18,11 +23,11 @@ export async function DELETE(
 
   // Check if the user is authenticated; if not, return a 401 Unauthorized response.
   if (!session || !user) {
-    return new Response(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         success: false,
         message: "Not Authenticated", // Error message for unauthenticated access.
-      }),
+      },
       { status: 401 }
     );
   }
@@ -34,30 +39,30 @@ export async function DELETE(
     );
 
     if (updateResult.modifiedCount === 0) {
-      return new Response(
-        JSON.stringify({
+      return NextResponse.json(
+        {
           success: false,
           message: "Message not found or already deleted",
-        }),
-        { status: 401 }
+        },
+        { status: 404 } // Use 404 for "Not Found"
       );
     }
 
-    return new Response(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         success: true,
         message: "Message deleted",
-      }),
+      },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error in deleting message route: ", error);
-    return new Response(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         success: false,
         message: "Error deleting message", // Error message for unauthenticated access.
-      }),
-      { status: 401 }
+      },
+      { status: 500 } // Use 500 for "Internal Server Error"
     );
   }
 }
