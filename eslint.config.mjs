@@ -17,9 +17,6 @@ const eslintConfig = [
       "react-hooks/rules-of-hooks": "off", // Validates rules of hooks
       "react-hooks/exhaustive-deps": "off", // Validates dependency arrays
     },
-    eslint: {
-      ignoreDuringBuilds: true, // Ignores ESLint errors during build
-    },
   },
 ];
 
