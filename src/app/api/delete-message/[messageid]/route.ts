@@ -7,8 +7,8 @@ import { User } from "next-auth"; // Importing the User type from NextAuth.
 export async function DELETE(
   request: Request,
   { params }: { params: { messageid: string } }
-) {
-  const { messageid } = await params;
+): Promise<Response> {
+  const { messageid } = params;
   console.log(messageid);
   await dbConnect(); // Establish a connection to the database.
 
