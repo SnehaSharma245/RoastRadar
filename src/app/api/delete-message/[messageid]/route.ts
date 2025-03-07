@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth"; // Importing the function to fetch the current session.
-import { authOptions } from "../../auth/[...nextauth]/options"; // Authentication options for NextAuth.
+import { authOptions } from "@/app/api/auth/[...nextauth]/options"; // Authentication options for NextAuth.
 import dbConnect from "@/lib/dbConnet"; // Utility function to connect to the database.
 import UserModel from "@/model/User"; // User model for MongoDB operations.
 import { NextResponse, NextRequest } from "next/server"; // Import NextRequest and NextResponse
@@ -10,13 +10,14 @@ interface User extends NextAuthUser {
   _id: string;
 }
 
-export async function DELETE(
-  request: NextRequest, // Use NextRequest
-  { params }: { params: { [key: string]: string } } // Correct type for params
-): Promise<Response> {
-  const { messageid } = params; // Destructure messageid from params
-  console.log(messageid);
-  await dbConnect(); // Establish a connection to the database.
+export async function DELETE(request: NextRequest): Promise<Response> {
+  // Extract messageid directly from the URL
+  const url = new URL(request.url);
+  const messageid = url.pathname.split("/").pop(); // Assuming messageid is at the end of the URL
+  console.log("Message ID:", messageid);
+
+  // Ensure the database connection is established
+  await dbConnect();
 
   const session = await getServerSession(authOptions); // Get the current authenticated session.
   const user: User = session?.user as User; // Extract the user from the session and cast it to the User type.
@@ -35,7 +36,7 @@ export async function DELETE(
   try {
     const updateResult = await UserModel.updateOne(
       { _id: user._id },
-      { $pull: { messages: { _id: messageid } } }
+      { $pull: { messages: { _id: messageid } } } // Use $pull operator to remove the message
     );
 
     if (updateResult.modifiedCount === 0) {
@@ -51,16 +52,16 @@ export async function DELETE(
     return NextResponse.json(
       {
         success: true,
-        message: "Message deleted",
+        message: "Message deleted successfully",
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error in deleting message route: ", error);
+    console.error("Error in DELETE request: ", error);
     return NextResponse.json(
       {
         success: false,
-        message: "Error deleting message", // Error message for unauthenticated access.
+        message: "Error deleting message",
       },
       { status: 500 } // Use 500 for "Internal Server Error"
     );
