@@ -17,11 +17,11 @@ export async function DELETE(
 
   // Check if the user is authenticated; if not, return a 401 Unauthorized response.
   if (!session || !user) {
-    return Response.json(
-      {
+    return new Response(
+      JSON.stringify({
         success: false,
         message: "Not Authenticated", // Error message for unauthenticated access.
-      },
+      }),
       { status: 401 }
     );
   }
@@ -33,29 +33,29 @@ export async function DELETE(
     );
 
     if (updateResult.modifiedCount === 0) {
-      return Response.json(
-        {
+      return new Response(
+        JSON.stringify({
           success: false,
           message: "Message not found or already deleted",
-        },
+        }),
         { status: 401 }
       );
     }
 
-    return Response.json(
-      {
+    return new Response(
+      JSON.stringify({
         success: true,
         message: "Message deleted",
-      },
+      }),
       { status: 200 }
     );
   } catch (error) {
     console.error("Error in deleting message route: ", error);
-    return Response.json(
-      {
+    return new Response(
+      JSON.stringify({
         success: false,
         message: "Error deleting message", // Error message for unauthenticated access.
-      },
+      }),
       { status: 401 }
     );
   }
