@@ -3,9 +3,10 @@ import { authOptions } from "../../auth/[...nextauth]/options"; // Authenticatio
 import dbConnect from "@/lib/dbConnet"; // Utility function to connect to the database.
 import UserModel from "@/model/User"; // User model for MongoDB operations.
 import { User } from "next-auth"; // Importing the User type from NextAuth.
+import { NextRequest } from "next/server";
 
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { messageid: string } }
 ): Promise<Response> {
   const { messageid } = params;
