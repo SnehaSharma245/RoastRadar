@@ -113,16 +113,18 @@ function page() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-900">
       {/* Card container */}
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+      <div className="w-full max-w-md p-8 space-y-8 bg-gray-800 rounded-lg shadow-md">
         <div className="text-center">
           {/* Heading */}
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-            Join True Feedback
+          <h1 className="text-3xl font-extrabold tracking-tight text-teal-400 lg:text-4xl mb-6">
+            Join Anonymous Feedback
           </h1>
           {/* Subheading */}
-          <p className="mb-4">Sign up to start your anonymous adventure</p>
+          <p className="mb-4 text-gray-300">
+            Sign up to start your anonymous adventure
+          </p>
         </div>
 
         {/* Form */}
@@ -134,10 +136,11 @@ function page() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel className="text-gray-300">Username</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="username"
+                      className="focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-700 text-gray-300 border-gray-600"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e); // Update form field
@@ -168,9 +171,13 @@ function page() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-gray-300">Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="email" {...field} />
+                    <Input
+                      placeholder="email"
+                      className="focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-700 text-gray-300 border-gray-600"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -183,9 +190,14 @@ function page() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-gray-300">Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="password" {...field} />
+                    <Input
+                      className="focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-700 text-gray-300 border-gray-600"
+                      type="password"
+                      placeholder="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -193,7 +205,11 @@ function page() {
             />
 
             {/* Submit button */}
-            <Button type="submit" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-teal-500 text-gray-900 hover:bg-amber-400 hover:text-gray-900"
+            >
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
@@ -208,9 +224,12 @@ function page() {
 
         {/* Sign-in link */}
         <div className="text-center mt-4">
-          <p>
+          <p className="text-gray-300">
             Already a member?{" "}
-            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
+            <Link
+              href="/sign-in"
+              className="text-teal-400 hover:text-amber-400"
+            >
               Sign in
             </Link>
           </p>
