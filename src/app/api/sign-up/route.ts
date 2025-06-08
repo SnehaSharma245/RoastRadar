@@ -3,7 +3,7 @@ import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
 
 //helper function for sending verification email
-import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
+import sendVerificationEmail from "@/helpers/sendVerificationEmail";
 
 //(request: Request)
 // Yeh function ka parameter hai, jo HTTP request object ko represent karta hai.
