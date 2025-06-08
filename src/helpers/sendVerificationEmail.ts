@@ -1,26 +1,32 @@
-import { resend } from "@/lib/resend";
+import sendEmail from "@/lib/nodemailerUtility";
+import { render } from "@react-email/render";
 import VerificationEmail from "../../emails/VerificationEmail";
-import { ApiResponse } from "@/types/ApiResponse";
 
-// Yeh function Promise<ApiResponse> return karta hai, yaani yeh asynchronous response return karega jisme success aur message information hogi.
-
-export async function sendVerificationEmail(
+const sendVerificationEmail = async (
   email: string,
   username: string,
-  verifyCode: string
-): Promise<ApiResponse> {
+  otp: string
+) => {
   try {
-    await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
-      to: email,
-      subject: "Anonymous Messages | Verification Code",
+    const subject = "Verify your email";
 
-      //component ko directly call kiya gaya hai jisme props { username, otp: verifyCode } diye gaye hain. Yeh template ko render karta hai with dynamic data.
-      react: VerificationEmail({ username, otp: verifyCode }),
-    });
-    return { success: true, message: "Verification email sent successfully" };
-  } catch (emailError) {
-    console.log("Error sending verification email : ", emailError);
-    return { success: false, message: "Failed to send verification email" };
+    // Render the React email template to HTML
+    const htmlContent = await render(VerificationEmail({ username, otp }));
+
+    await sendEmail(email, subject, htmlContent);
+
+    return {
+      success: true,
+      message: "OTP sent successfully",
+    };
+  } catch (error) {
+    console.error("Error sending OTP:", error);
+
+    return {
+      success: false,
+      message: "Failed to send OTP",
+    };
   }
-}
+};
+
+export default sendVerificationEmail;
