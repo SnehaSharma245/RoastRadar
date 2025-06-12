@@ -19,7 +19,7 @@ const sendEmail = async (
   attachment = null
 ) => {
   const mailOptions = {
-    from: `"ShadeSend" <${process.env.SMTP_EMAIL}>`,
+    from: `"RoastRadar" <${process.env.SMTP_EMAIL}>`,
     to: email,
     subject: subject,
     text: message, // Plain text version
