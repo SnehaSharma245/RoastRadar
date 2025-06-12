@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     }
 
     const prompt =
-      "Create a list of three open-ended and engaging questions formatted as a single string. Each question should be separated by '||'. These questions are for an anonymous social messaging platform, like Qooh.me, and should be suitable for a diverse audience. Avoid personal or sensitive topics, focusing instead on universal themes that encourage friendly interaction. For example, your output should be structured like this: 'What’s a hobby you’ve recently started?||If you could have dinner with any historical figure, who would it be?||What’s a simple thing that makes you happy?'. Ensure the questions are intriguing, foster curiosity, and contribute to a positive and welcoming conversational environment.";
+      "Generate exactly 3 witty and savage roasting messages separated by '||'. Do not include any explanatory text, introductions, or formatting instructions. Just return the three roasts directly. The roasts should be clever, humorous, and mildly savage but not offensive. Focus on universal themes like social media habits, daily routines, or personality quirks. Example format: 'Your WiFi password is probably still password123||You say we should hang out soon but never make plans||Your Spotify Wrapped embarrassed your own music taste'";
 
     // Gemini model initialize karna
     const model: GenerativeModel = genAI.getGenerativeModel({
@@ -55,7 +55,35 @@ export async function POST(request: Request) {
       throw new Error("Empty response from Gemini API.");
     }
 
-    const suggestions = text.split("||");
+    // Clean the response to remove any unwanted text
+    let cleanedText = text.trim();
+
+    // Remove common prefixes that might appear
+    const prefixesToRemove = [
+      "Here's the string containing three RoastRadar-ready roasts:",
+      "Here are three roasts:",
+      "Here's the string:",
+      "Three roasts:",
+    ];
+
+    for (const prefix of prefixesToRemove) {
+      if (cleanedText.startsWith(prefix)) {
+        cleanedText = cleanedText.substring(prefix.length).trim();
+      }
+    }
+
+    // Remove quotes if they wrap the entire response
+    if (cleanedText.startsWith("'") && cleanedText.endsWith("'")) {
+      cleanedText = cleanedText.slice(1, -1);
+    }
+    if (cleanedText.startsWith('"') && cleanedText.endsWith('"')) {
+      cleanedText = cleanedText.slice(1, -1);
+    }
+
+    const suggestions = cleanedText
+      .split("||")
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0);
 
     // Update user click count
     const newCount = userData ? userData.count + 1 : 1;
