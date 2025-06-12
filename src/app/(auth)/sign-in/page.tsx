@@ -21,10 +21,12 @@ import { Button } from "@/components/ui/button";
 import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
 import { Flame, LogIn } from "lucide-react";
+import LoadingScreen from "@/components/LoadingScreen";
 
 // Main page component
 function page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const { toast } = useToast();
   const router = useRouter();
@@ -49,14 +51,16 @@ function page() {
     if (result?.error) {
       if (result.error == "CredentialsSignin") {
         toast({
-          title: "Login failed",
-          description: "Incorrect username or password",
+          title: "🎯 Aim Better Next Time",
+          description:
+            "Your username or password missed the target. Try again, warrior!",
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Error",
-          description: result.error,
+          title: "⚡ System Overload",
+          description:
+            "The roasting servers are getting heated. Cool down and retry!",
           variant: "destructive",
         });
       }
@@ -68,6 +72,18 @@ function page() {
     setIsSubmitting(false);
   };
 
+  const handleLogoClick = () => {
+    setIsNavigating(true);
+  };
+
+  const handleSignUpClick = () => {
+    setIsNavigating(true);
+  };
+
+  if (isNavigating) {
+    return <LoadingScreen message="Redirecting..." />;
+  }
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 via-purple-100 to-violet-200">
       {/* Card container */}
@@ -75,11 +91,13 @@ function page() {
         <div className="text-center">
           {/* Logo and Heading */}
           <div className="flex items-center justify-center mb-6">
-            <Link href="/" className="flex items-center space-x-2">
-              <Flame className="w-10 h-10 text-purple-600 mr-2" />
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent">
-                RoastRadar
-              </h1>
+            <Link href="/" onClick={handleLogoClick}>
+              <div className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
+                <Flame className="w-10 h-10 text-purple-600 mr-2" />
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent">
+                  RoastRadar
+                </h1>
+              </div>
             </Link>
           </div>
 
@@ -160,11 +178,10 @@ function page() {
         <div className="text-center mt-6">
           <p className="text-purple-700">
             New to the roasting game?{" "}
-            <Link
-              href="/sign-up"
-              className="text-purple-600 hover:text-purple-800 font-semibold  decoration-purple-400 hover:decoration-purple-600 transition-colors"
-            >
-              Join the Arena!
+            <Link href="/sign-up" onClick={handleSignUpClick}>
+              <span className="text-purple-600 hover:text-purple-800 font-semibold  decoration-purple-400 hover:decoration-purple-600 transition-colors cursor-pointer">
+                Join the Arena!
+              </span>
             </Link>
           </p>
         </div>

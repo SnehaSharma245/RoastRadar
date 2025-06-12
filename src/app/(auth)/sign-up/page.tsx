@@ -22,12 +22,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2, Flame, UserPlus, CheckCircle, XCircle } from "lucide-react";
+import LoadingScreen from "@/components/LoadingScreen";
 
 function page() {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const debounced = useDebounceCallback(setUsername, 300);
   const { toast } = useToast();
@@ -73,8 +75,9 @@ function page() {
     try {
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
       toast({
-        title: "Welcome to the Arena! 🔥",
-        description: response.data.message,
+        title: "🔥 Welcome to the Roast Arena!",
+        description:
+          "Your roasting profile is ready for some savage burns! Time to face the heat.",
       });
 
       router.replace(`/verify/${username}`);
@@ -84,8 +87,10 @@ function page() {
       const errorMessage = axiosError.response?.data.message;
 
       toast({
-        title: "Signup failed",
-        description: errorMessage,
+        title: "🚫 Arena Entry Denied",
+        description:
+          errorMessage ||
+          "Looks like the roasting gods aren't pleased. Try again!",
         variant: "destructive",
       });
     } finally {
@@ -93,16 +98,30 @@ function page() {
     }
   };
 
+  const handleLogoClick = () => {
+    setIsNavigating(true);
+  };
+
+  const handleSignInClick = () => {
+    setIsNavigating(true);
+  };
+
+  if (isNavigating) {
+    return <LoadingScreen message="Redirecting..." />;
+  }
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 via-purple-100 to-violet-200 p-4">
       <div className="w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-purple-200">
         <div className="text-center">
           <div className="flex items-center justify-center mb-6">
-            <Link href="/" className="flex items-center space-x-2">
-              <Flame className="w-10 h-10 text-purple-600 mr-2" />
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent">
-                RoastRadar
-              </h1>
+            <Link href="/" onClick={handleLogoClick}>
+              <div className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
+                <Flame className="w-10 h-10 text-purple-600 mr-2" />
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent">
+                  RoastRadar
+                </h1>
+              </div>
             </Link>
           </div>
 
@@ -229,11 +248,10 @@ function page() {
         <div className="text-center mt-6">
           <p className="text-purple-700">
             Already getting roasted?{" "}
-            <Link
-              href="/sign-in"
-              className="text-purple-600 hover:text-purple-800 font-semibold underline decoration-purple-400 hover:decoration-purple-600 transition-colors"
-            >
-              Sign In Here!
+            <Link href="/sign-in" onClick={handleSignInClick}>
+              <span className="text-purple-600 hover:text-purple-800 font-semibold underline decoration-purple-400 hover:decoration-purple-600 transition-colors cursor-pointer">
+                Sign In Here!
+              </span>
             </Link>
           </p>
         </div>
