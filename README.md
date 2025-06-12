@@ -48,7 +48,7 @@ RoastRadar is a modern, full-stack anonymous messaging platform built with Next.
 - **Runtime**: Node.js
 - **Database**: MongoDB with Mongoose ODM
 - **Authentication**: NextAuth.js
-- **Email**: Resend for email verification
+- **Email**: Nodemailer for email verification
 - **AI Integration**: Google Gemini API for roast suggestions
 - **Validation**: Zod schemas
 
@@ -66,13 +66,13 @@ RoastRadar is a modern, full-stack anonymous messaging platform built with Next.
 - Node.js 18+ installed
 - MongoDB database (local or cloud)
 - Google Gemini API key
-- Resend account for emails
+- Nodemailer account for emails
 
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd anonymous-message
+git clone <https://github.com/SnehaSharma245/RoastRadar.git>
+cd RoastRadar
 ```
 
 ### 2. Install Dependencies
