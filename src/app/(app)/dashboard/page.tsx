@@ -11,7 +11,20 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, RefreshCcw } from "lucide-react";
+import {
+  Loader2,
+  RefreshCcw,
+  Copy,
+  Flame,
+  Share,
+  ToggleLeft,
+  ToggleRight,
+  Target,
+  ChefHat,
+  Zap,
+  Eye,
+  Shield,
+} from "lucide-react";
 import MessageCard from "@/components/MessageCard";
 import { User } from "next-auth";
 
@@ -34,10 +47,8 @@ function page() {
   });
 
   const { register, watch, setValue } = form;
-
   const acceptMessages = watch("acceptMessages");
 
-  //useCallback ka kaam hai ek function ko yaad rakhna (memoize karna), taaki woh baar-baar na bane jab component render ho.
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
@@ -66,8 +77,8 @@ function page() {
         setMessages(response.data.messages || []);
         if (refresh) {
           toast({
-            title: "Refreshed messages",
-            description: "Showing Latest Messages",
+            title: "Fresh Roasts Loaded!",
+            description: "Check out the latest burns",
           });
         }
       } catch (error) {
@@ -93,7 +104,6 @@ function page() {
     fetchAcceptMessage();
   }, [session, setValue, fetchAcceptMessage, fetchMessages]);
 
-  //handleSwitchChange
   const handleSwitchChange = async () => {
     try {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
@@ -118,11 +128,9 @@ function page() {
   };
 
   const username: string = (session?.user as User)?.username as string;
-  // console.log(username);
-  //imp
+
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // Access `window` safely
       setBaseUrl(`${window.location.protocol}//${window.location.host}`);
     }
   }, []);
@@ -132,71 +140,157 @@ function page() {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
-      title: "URL Copied to clipboard",
-      description: "Profile URL has been copied to clipboard",
+      title: "URL Copied!",
+      description: "Share this link to receive epic roasts",
     });
   };
 
   if (!session || !session.user) {
-    return <div>Please Login</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-50 via-purple-100 to-violet-200">
+        <div className="text-center bg-white/80 backdrop-blur-sm p-8 rounded-2xl border-2 border-purple-200 shadow-xl">
+          <Flame className="w-16 h-16 text-purple-600 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-purple-800 mb-2">
+            Authentication Required
+          </h2>
+          <p className="text-purple-700">
+            Please login to access your roasting dashboard
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
-      <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
-
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
-        <div className="flex items-center">
-          <input
-            type="text"
-            value={profileUrl}
-            disabled
-            className="input input-bordered w-full p-2 mr-2"
-          />
-          <Button onClick={copyToClipboard}>Copy</Button>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-purple-100 to-violet-200 p-4 ">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-6 mb-6 mt-20">
+          <div className="flex items-center mb-4">
+            <ChefHat className="w-8 h-8 text-purple-600 mr-3" />
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent flex items-center gap-2">
+              Your Roasting Dashboard{" "}
+              <Flame className="w-8 h-8 text-purple-600" />
+            </h1>
+          </div>
+          <p className="text-purple-700 text-lg">
+            Welcome back, <span className="font-semibold">{username}</span>!
+            Ready to see what people really think?
+          </p>
         </div>
-      </div>
 
-      <div className="mb-4">
-        <Switch
-          {...register("acceptMessages")}
-          checked={acceptMessages}
-          onCheckedChange={handleSwitchChange}
-          disabled={isSwitchLoading}
-        />
-        <span className="ml-2">
-          Accept Messages: {acceptMessages ? "On" : "Off"}
-        </span>
-      </div>
-      <Separator />
-
-      <Button
-        className="mt-4"
-        variant="outline"
-        onClick={(e) => {
-          e.preventDefault();
-          fetchMessages(true);
-        }}
-      >
-        {isLoading ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <RefreshCcw className="h-4 w-4" />
-        )}
-      </Button>
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {messages.length > 0 ? (
-          messages.map((message) => (
-            <MessageCard
-              key={message._id as string}
-              message={message}
-              onMessageDelete={handleDeleteMessage}
+        {/* Share Profile Section */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-6 mb-6">
+          <div className="flex items-center mb-4">
+            <Share className="w-6 h-6 text-purple-600 mr-2" />
+            <h2 className="text-xl font-bold text-purple-800">
+              Share Your Roasting Profile
+            </h2>
+          </div>
+          <p className="text-purple-700 mb-4 flex items-center gap-2">
+            Share this link to let people roast you anonymously!{" "}
+            <Zap className="w-4 h-4 text-purple-600" />
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="text"
+              value={profileUrl}
+              disabled
+              className="flex-1 p-3 bg-purple-50 border-2 border-purple-200 rounded-xl text-purple-800 font-mono text-sm"
             />
-          ))
-        ) : (
-          <p>No messages to display.</p>
-        )}
+            <Button
+              onClick={copyToClipboard}
+              className="bg-gradient-to-r from-purple-600 to-violet-600 text-white hover:from-purple-700 hover:to-violet-700 shadow-lg hover:shadow-xl transition-all duration-300 px-6 py-3 rounded-xl flex items-center space-x-2"
+            >
+              <Copy className="w-4 h-4" />
+              <span>Copy Link</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Message Settings */}
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-6 mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              {acceptMessages ? (
+                <ToggleRight className="w-6 h-6 text-purple-600 mr-2" />
+              ) : (
+                <ToggleLeft className="w-6 h-6 text-purple-400 mr-2" />
+              )}
+              <div>
+                <h3 className="text-lg font-bold text-purple-800 flex items-center gap-2">
+                  Accept Roasts
+                  {acceptMessages ? (
+                    <Flame className="w-4 h-4 text-purple-600" />
+                  ) : (
+                    <Shield className="w-4 h-4 text-purple-400" />
+                  )}
+                </h3>
+                <p className="text-purple-600 text-sm">
+                  {acceptMessages
+                    ? "You're open for business!"
+                    : "Taking a break from the heat?"}
+                </p>
+              </div>
+            </div>
+            <Switch
+              {...register("acceptMessages")}
+              checked={acceptMessages}
+              onCheckedChange={handleSwitchChange}
+              disabled={isSwitchLoading}
+              className="data-[state=checked]:bg-purple-600"
+            />
+          </div>
+        </div>
+
+        <Separator className="my-6 bg-purple-200" />
+
+        {/* Refresh Button */}
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-purple-800 flex items-center gap-2">
+            Your Roasts <Target className="w-6 h-6 text-purple-600" />
+          </h2>
+          <Button
+            variant="outline"
+            onClick={(e) => {
+              e.preventDefault();
+              fetchMessages(true);
+            }}
+            className="border-2 border-purple-200 text-purple-700 hover:bg-purple-100 hover:border-purple-300 rounded-xl flex items-center space-x-2"
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCcw className="h-4 w-4" />
+            )}
+            <span>Refresh</span>
+          </Button>
+        </div>
+
+        {/* Messages Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {messages.length > 0 ? (
+            messages.map((message) => (
+              <MessageCard
+                key={message._id as string}
+                message={message}
+                onMessageDelete={handleDeleteMessage}
+              />
+            ))
+          ) : (
+            <div className="col-span-full bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-12 text-center">
+              <Eye className="w-16 h-16 text-purple-400 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-purple-800 mb-2">
+                No Roasts Yet!
+              </h3>
+              <p className="text-purple-600 flex items-center justify-center gap-2">
+                Share your profile link and wait for the savage feedback to pour
+                in!
+                <Zap className="w-4 h-4 text-purple-600" />
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
