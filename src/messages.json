@@ -1,17 +1,27 @@
 [
   {
-    "title": "Message from User123",
-    "content": "Hey, how are you doing today?",
+    "title": "Roast from Anonymous",
+    "content": "Your coding skills are so bad, even Stack Overflow can't help you! 😂",
     "received": "10 minutes ago"
   },
   {
-    "title": "Message from SecretAdmirer",
-    "content": "I really liked your recent post!",
+    "title": "Savage Feedback",
+    "content": "I've seen better presentations from my toaster. At least it knows when to pop up! 🔥",
     "received": "2 hours ago"
   },
   {
-    "title": "Message from MysteryGuest",
-    "content": "Do you have any book recommendations?",
+    "title": "Brutal Truth",
+    "content": "Your selfies have more filters than your coffee machine! ☕",
     "received": "1 day ago"
+  },
+  {
+    "title": "Anonymous Roaster",
+    "content": "You're like a software update - nobody wants you, but we're stuck with you! 💻",
+    "received": "3 hours ago"
+  },
+  {
+    "title": "Friendly Fire",
+    "content": "Your jokes are so dry, the Sahara desert is taking notes! 🌵",
+    "received": "5 hours ago"
   }
 ]
