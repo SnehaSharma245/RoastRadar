@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
@@ -12,8 +12,17 @@ import {
 import messages from "@/messages.json";
 import Autoplay from "embla-carousel-autoplay";
 import { FlameIcon, Skull, Ghost, Flame, Target, Zap, Eye } from "lucide-react";
+import LoadingScreen from "@/components/LoadingScreen";
+import { useRouter } from "next/navigation";
 
 function Home() {
+  const [isNavigating, setIsNavigating] = useState(false);
+  const router = useRouter();
+
+  if (isNavigating) {
+    return <LoadingScreen message="Loading..." />;
+  }
+
   return (
     <>
       <main className="page-content flex-grow px-4 min-h-screen relative pt-20">
