@@ -139,7 +139,7 @@ function Page() {
         <div className="text-center mb-8">
           <div className="flex flex-col items-center justify-center mb-4">
             <Link href="/" onClick={handleLogoClick}>
-              <div className="w-16 h-16 mb-3 hover:scale-110 transition-transform duration-300 cursor-pointer">
+              <div className="w-16 h-16 mb-3 hover:scale-110 transition-transform duration-300 cursor-pointer flex items-center justify-center">
                 <Image
                   src="/logo2.png"
                   alt="RoastRadar Logo"
@@ -150,7 +150,7 @@ function Page() {
               </div>
             </Link>
             <Link href="/" onClick={handleHeadingClick}>
-              <h1 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent hover:scale-105 transition-transform duration-300 cursor-pointer">
+              <h1 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent hover:scale-105 transition-transform duration-300 cursor-pointer text-center">
                 <span className="bg-gradient-to-r from-purple-400 to-purple-500 bg-clip-text text-transparent">
                   Roast
                 </span>
@@ -164,11 +164,11 @@ function Page() {
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-6 mb-6">
             <div className="flex items-center justify-center mb-3">
               <Target className="w-6 h-6 text-purple-600 mr-2" />
-              <h2 className="text-2xl font-bold text-purple-800">
+              <h2 className="text-2xl font-bold text-purple-800 text-center">
                 Target Acquired: {params.username}
               </h2>
             </div>
-            <p className="text-purple-700 text-lg flex items-center justify-center gap-2">
+            <p className="text-purple-700 text-lg flex items-center justify-center gap-2 text-center">
               Time to deliver some anonymous fire! <Zap className="w-5 h-5" />{" "}
               What savage feedback do you have?
             </p>
@@ -230,13 +230,13 @@ function Page() {
         {/* Suggestions */}
         {suggestions.length > 0 && (
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-6">
-            <div className="flex items-center mb-4">
+            <div className="flex items-center justify-center mb-4">
               <Lightbulb className="w-6 h-6 text-purple-600 mr-2" />
-              <h2 className="text-xl font-bold text-purple-800 flex items-center gap-2">
+              <h2 className="text-xl font-bold text-purple-800 flex items-center gap-2 text-center">
                 Savage Suggestions <Flame className="w-5 h-5" />
               </h2>
             </div>
-            <p className="text-purple-700 mb-4">
+            <p className="text-purple-700 mb-4 text-center">
               Click on any suggestion to use it as your roast!
             </p>
             <div className="grid gap-3">
@@ -261,7 +261,7 @@ function Page() {
         {/* Footer Notice */}
         <div className="text-center mt-8">
           <div className="bg-purple-100 border-2 border-purple-200 rounded-2xl p-4">
-            <p className="text-purple-700 text-sm flex items-center justify-center gap-2">
+            <p className="text-purple-700 text-sm flex items-center justify-center gap-2 text-center">
               <Shield className="w-4 h-4" /> Your identity is completely
               anonymous. Roast responsibly and keep it fun!
             </p>

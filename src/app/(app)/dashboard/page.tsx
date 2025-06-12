@@ -171,32 +171,32 @@ function page() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-purple-100 to-violet-200 p-4 ">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-purple-100 to-violet-200 p-3 sm:p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-6 mb-6 mt-20">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-4 sm:p-6 mb-4 sm:mb-6 mt-16 sm:mt-20">
           <div className="flex items-center mb-4">
-            <ChefHat className="w-8 h-8 text-purple-600 mr-3" />
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent flex items-center gap-2">
+            <ChefHat className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 mr-2 sm:mr-3" />
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent flex items-center gap-2">
               Your Roasting Dashboard{" "}
-              <Flame className="w-8 h-8 text-purple-600" />
+              <Flame className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
             </h1>
           </div>
-          <p className="text-purple-700 text-lg">
+          <p className="text-purple-700 text-base sm:text-lg">
             Welcome back, <span className="font-semibold">{username}</span>!
             Ready to see what people really think?
           </p>
         </div>
 
         {/* Share Profile Section */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-6 mb-6">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-4 sm:p-6 mb-4 sm:mb-6">
           <div className="flex items-center mb-4">
-            <Share className="w-6 h-6 text-purple-600 mr-2" />
-            <h2 className="text-xl font-bold text-purple-800">
+            <Share className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 mr-2" />
+            <h2 className="text-lg sm:text-xl font-bold text-purple-800">
               Share Your Roasting Profile
             </h2>
           </div>
-          <p className="text-purple-700 mb-4 flex items-center gap-2">
+          <p className="text-purple-700 mb-4 flex items-center gap-2 text-sm sm:text-base">
             Share this link to let people roast you anonymously!{" "}
             <Zap className="w-4 h-4 text-purple-600" />
           </p>
@@ -218,7 +218,7 @@ function page() {
         </div>
 
         {/* Message Settings */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-6 mb-6">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border-2 border-purple-200 p-4 sm:p-6 mb-4 sm:mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               {acceptMessages ? (
@@ -252,12 +252,13 @@ function page() {
           </div>
         </div>
 
-        <Separator className="my-6 bg-purple-200" />
+        <Separator className="my-4 sm:my-6 bg-purple-200" />
 
         {/* Refresh Button */}
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-purple-800 flex items-center gap-2">
-            Your Roasts <Target className="w-6 h-6 text-purple-600" />
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-purple-800 flex items-center gap-2">
+            Your Roasts{" "}
+            <Target className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
           </h2>
           <Button
             variant="outline"
@@ -277,7 +278,7 @@ function page() {
         </div>
 
         {/* Messages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {messages.length > 0 ? (
             messages.map((message) => (
               <MessageCard

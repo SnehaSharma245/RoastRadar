@@ -77,15 +77,15 @@ function VerifyAccount() {
             <CheckCircle className="w-10 h-10 text-purple-600 ml-2" />
           </div>
 
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent mb-4 flex items-center justify-center gap-2">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent mb-4 flex items-center justify-center gap-2 text-center">
             Almost There! <Flame className="w-8 h-8 text-purple-600" />
           </h1>
 
           <div className="bg-purple-100 border-2 border-purple-200 rounded-xl p-4 mb-6">
-            <h2 className="text-lg font-bold text-purple-800 mb-2">
+            <h2 className="text-lg font-bold text-purple-800 mb-2 text-center">
               Verify Your RoastRadar Account
             </h2>
-            <p className="text-purple-700">
+            <p className="text-purple-700 text-center">
               Hey <span className="font-semibold">{params.username}</span>!
               We&apos;ve sent a verification code to your email. Enter it below
               to join the roasting party!
@@ -128,7 +128,7 @@ function VerifyAccount() {
 
         <div className="text-center">
           <div className="bg-purple-50 border border-purple-200 rounded-xl p-3">
-            <p className="text-purple-700 text-sm">
+            <p className="text-purple-700 text-sm text-center">
               Didn&apos;t receive the code? Check your spam folder or{" "}
               <Link
                 href="/sign-up"

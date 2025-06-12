@@ -116,20 +116,20 @@ function page() {
         <div className="text-center">
           <div className="flex items-center justify-center mb-6">
             <Link href="/" onClick={handleLogoClick}>
-              <div className="flex items-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
+              <div className="flex items-center justify-center space-x-2 cursor-pointer hover:scale-105 transition-transform duration-300">
                 <Flame className="w-10 h-10 text-purple-600 mr-2" />
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent text-center">
                   RoastRadar
                 </h1>
               </div>
             </Link>
           </div>
 
-          <h2 className="text-2xl font-extrabold text-purple-800 mb-4">
+          <h2 className="text-2xl font-extrabold text-purple-800 mb-4 text-center">
             Join the Roasting Arena!
           </h2>
 
-          <p className="text-purple-700 mb-6">
+          <p className="text-purple-700 mb-6 text-center">
             Create your account and prepare to get roasted
           </p>
         </div>
@@ -246,7 +246,7 @@ function page() {
         </Form>
 
         <div className="text-center mt-6">
-          <p className="text-purple-700">
+          <p className="text-purple-700 text-center">
             Already getting roasted?{" "}
             <Link href="/sign-in" onClick={handleSignInClick}>
               <span className="text-purple-600 hover:text-purple-800 font-semibold underline decoration-purple-400 hover:decoration-purple-600 transition-colors cursor-pointer">

@@ -64,30 +64,30 @@ function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 p-4 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 px-4 py-3 transition-all duration-300 ${
         isScrolled
-          ? "backdrop-blur-3xl bg-white/10 shadow-purple-200 shadow-2xl border-b border-purple-200/20"
-          : "backdrop-blur-2xl bg-white/5 shadow-purple-100 shadow-xl border-b border-purple-100/10"
+          ? "backdrop-blur-3xl bg-white/20 shadow-purple-200 shadow-2xl border-b border-purple-200/30"
+          : "backdrop-blur-2xl bg-white/10 shadow-purple-100 shadow-xl border-b border-purple-100/20"
       }`}
     >
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center">
         {/* Logo/Brand Name */}
-        <Link href="/" className="flex items-center mb-4 md:mb-0 group">
-          <div className="relative flex items-center space-x-2 group-hover:scale-110 transition-transform duration-300">
+        <Link href="/" className="flex items-center group">
+          <div className="relative flex items-center space-x-2 group-hover:scale-105 transition-transform duration-300">
             {/* Logo Image */}
-            <div className="w-12 h-12">
+            <div className="w-10 h-10">
               <Image
                 src="/logo2.png"
                 alt="RoastRadar Logo"
-                width={48}
-                height={48}
+                width={40}
+                height={40}
                 className="w-full h-full object-contain"
                 priority
               />
             </div>
 
             {/* Text */}
-            <h1 className="text-2xl md:text-3xl font-bold drop-shadow-lg">
+            <h1 className="text-xl sm:text-2xl font-bold drop-shadow-lg">
               <span className="text-purple-500">Roast</span>
               <span className="text-purple-800">Radar</span>
             </h1>
@@ -96,28 +96,27 @@ function Navbar() {
 
         {/* Session-based Navigation */}
         {session ? (
-          <div className="flex items-center space-x-4">
-            <div className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full border border-white/30 shadow-lg">
-              <span className="text-sm md:text-base text-purple-800 font-medium drop-shadow">
-                Welcome, {user?.username || user?.email}
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="bg-white/30 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-full border border-white/40 shadow-lg">
+              <span className="text-xs sm:text-sm text-purple-800 font-medium drop-shadow truncate max-w-[100px] sm:max-w-none">
+                {user?.username || user?.email}
               </span>
             </div>
             <Button
-              className="bg-purple-600/90 backdrop-blur-sm text-white hover:bg-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 px-6 py-3 rounded-xl font-semibold border border-white/20 hover:border-white/30"
+              className="bg-purple-600/90 backdrop-blur-sm text-white hover:bg-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 px-3 sm:px-4 py-2 rounded-lg font-semibold border border-white/20 hover:border-white/30"
               onClick={handleLogoutClick}
+              size="sm"
             >
-              <div className="flex items-center space-x-2">
-                <LogOut className="w-4 h-4" />
-                <span>Logout</span>
-              </div>
+              <LogOut className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline text-sm">Logout</span>
             </Button>
           </div>
         ) : (
           <Link href="/sign-in" onClick={handleSignInClick}>
-            <Button className="bg-purple-600/90 backdrop-blur-sm text-white hover:bg-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 px-8 py-3 rounded-xl font-semibold border-2 border-white/20 hover:border-white/30">
+            <Button className="bg-purple-600/90 backdrop-blur-sm text-white hover:bg-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 px-4 sm:px-6 py-2 rounded-lg font-semibold border-2 border-white/20 hover:border-white/30 mr-2 sm:mr-4">
               <div className="flex items-center space-x-2">
                 <LogIn className="w-4 h-4" />
-                <span>Enter Arena</span>
+                <span className="text-sm sm:text-base">Enter Arena</span>
               </div>
             </Button>
           </Link>
