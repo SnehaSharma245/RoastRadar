@@ -31,8 +31,9 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
     await axios.delete<ApiResponse>(`/api/delete-message/${message._id}`);
 
     toast({
-      title: "Roast Deleted! 🗑️",
-      description: "That burn has been removed from your collection",
+      title: "🗑️ Roast Deleted!",
+      description:
+        "That burn has been removed from your collection successfully!",
     });
     onMessageDelete(message._id as string);
   };
@@ -55,9 +56,9 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
-                variant="destructive"
+                variant="outline"
                 size="sm"
-                className="ml-3 bg-red-500 hover:bg-red-600 rounded-xl"
+                className="ml-3 bg-purple-100 hover:bg-purple-200 border-2 border-purple-300 hover:border-purple-400 text-purple-700 hover:text-purple-800 rounded-xl transition-all duration-300"
               >
                 <Trash2 className="w-4 h-4" />
               </Button>
@@ -70,7 +71,7 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                 </AlertDialogTitle>
                 <AlertDialogDescription className="text-purple-700">
                   Are you sure you want to delete this roast? This action cannot
-                  be undone and the burn will be lost forever! 🔥
+                  be undone and the burn will be lost forever!
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -79,7 +80,7 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                 </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={handleDeleteConfirm}
-                  className="bg-red-500 hover:bg-red-600 text-white rounded-xl"
+                  className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl border-2 border-purple-600 hover:border-purple-700"
                 >
                   Delete Roast
                 </AlertDialogAction>
