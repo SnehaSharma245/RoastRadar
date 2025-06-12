@@ -1,50 +1,40 @@
 "use client";
 
-// Import necessary modules and libraries
-import { zodResolver } from "@hookform/resolvers/zod"; // For integrating Zod validation with React Hook Form
-import { useForm } from "react-hook-form"; // React Hook Form for handling forms
-import { Form } from "@/components/ui/form"; // Custom Form component
-import Link from "next/link"; // For client-side navigation in Next.js
-import * as z from "zod"; // Zod for schema-based validation
-import React, { useEffect, useState } from "react"; // React hooks for state and lifecycle
-import { useRouter } from "next/navigation"; // Next.js router for navigation
-import { useDebounceCallback } from "usehooks-ts"; // For debouncing a callback function
-import { useToast } from "@/hooks/use-toast"; // Custom toast notifications
-
-import { signUpSchema } from "@/schemas/signUpSchema"; // Schema for signup form validation
-import axios, { AxiosError } from "axios"; // Axios for API requests
-import { ApiResponse } from "@/types/ApiResponse"; // Type for API response
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+import Link from "next/link";
+import * as z from "zod";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useDebounceCallback } from "usehooks-ts";
+import { useToast } from "@/hooks/use-toast";
+import { signUpSchema } from "@/schemas/signUpSchema";
+import axios, { AxiosError } from "axios";
+import { ApiResponse } from "@/types/ApiResponse";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"; // UI components for form
-import { Input } from "@/components/ui/input"; // Input component
-import { Button } from "@/components/ui/button"; // Button component
-import { Loader2 } from "lucide-react"; // Loader spinner icon
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Loader2, Flame, UserPlus, CheckCircle, XCircle } from "lucide-react";
 
-// Main page component
 function page() {
-  // States for handling username, checking username uniqueness, and form submission status
-  const [username, setUsername] = useState(""); // Stores the username input
-  const [usernameMessage, setUsernameMessage] = useState(""); // Message for username validation
-  const [isCheckingUsername, setIsCheckingUsername] = useState(false); // Flag for checking username
-  const [isSubmitting, setIsSubmitting] = useState(false); // Flag for form submission
+  const [username, setUsername] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState("");
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Debouncing to delay updating the username state until typing stops
   const debounced = useDebounceCallback(setUsername, 300);
-
-  // Toast notifications for feedback
   const { toast } = useToast();
-
-  // Next.js router for navigation
   const router = useRouter();
 
-  // Setting up React Hook Form with Zod validation schema
   const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema), // Connect Zod schema with React Hook Form
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       username: "",
       email: "",
@@ -52,130 +42,141 @@ function page() {
     },
   });
 
-  // Effect to check if the username is unique whenever the `username` state changes
   useEffect(() => {
     const checkUsernameUnique = async () => {
       if (username) {
-        setIsCheckingUsername(true); // Indicate that the username check is in progress
-        setUsernameMessage(""); // Reset the message
+        setIsCheckingUsername(true);
+        setUsernameMessage("");
         try {
-          // API call to check if the username is unique
           const response = await axios.get(
             `/api/check-username-unique?username=${username}`
           );
-          setUsernameMessage(response.data.message); // Update the message based on the response
+          setUsernameMessage(response.data.message);
         } catch (error) {
-          // Handle errors from the API
           const axiosError = error as AxiosError<ApiResponse>;
           setUsernameMessage(
             axiosError.response?.data.message ?? "Error checking username"
           );
         } finally {
-          setIsCheckingUsername(false); // Reset the flag after checking
+          setIsCheckingUsername(false);
         }
       }
     };
 
-    checkUsernameUnique(); // Call the function
-  }, [username]); // Runs every time `username` changes
+    checkUsernameUnique();
+  }, [username]);
 
-  // Handle form submission
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    setIsSubmitting(true); // Indicate that form submission is in progress
+    setIsSubmitting(true);
     console.log(data);
 
     try {
-      // Send signup data to the API
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
-      // Show success toast
       toast({
-        title: "Success",
+        title: "Welcome to the Arena! 🔥",
         description: response.data.message,
       });
 
-      // Navigate to the verification page
       router.replace(`/verify/${username}`);
     } catch (error) {
-      // Handle errors during signup
       console.error("Error in signup of user: ", error);
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage = axiosError.response?.data.message;
 
-      // Show error toast
       toast({
         title: "Signup failed",
         description: errorMessage,
         variant: "destructive",
       });
     } finally {
-      setIsSubmitting(false); // Reset the flag after submission
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900">
-      {/* Card container */}
-      <div className="w-full max-w-md p-8 space-y-8 bg-gray-800 rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-purple-50 via-purple-100 to-violet-200 p-4">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border-2 border-purple-200">
         <div className="text-center">
-          {/* Heading */}
-          <h1 className="text-3xl font-extrabold tracking-tight text-teal-400 lg:text-4xl mb-6">
-            Join Anonymous Feedback
-          </h1>
-          {/* Subheading */}
-          <p className="mb-4 text-gray-300">
-            Sign up to start your anonymous adventure
+          <div className="flex items-center justify-center mb-6">
+            <Link href="/" className="flex items-center space-x-2">
+              <Flame className="w-10 h-10 text-purple-600 mr-2" />
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-purple-800 bg-clip-text text-transparent">
+                RoastRadar
+              </h1>
+            </Link>
+          </div>
+
+          <h2 className="text-2xl font-extrabold text-purple-800 mb-4">
+            Join the Roasting Arena!
+          </h2>
+
+          <p className="text-purple-700 mb-6">
+            Create your account and prepare to get roasted
           </p>
         </div>
 
-        {/* Form */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Username field */}
             <FormField
               name="username"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-300">Username</FormLabel>
+                  <FormLabel className="text-purple-800 font-medium">
+                    Username
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="username"
-                      className="focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-700 text-gray-300 border-gray-600"
+                      placeholder="Choose your roast handle"
+                      className="bg-purple-50 border-2 border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-purple-800 placeholder:text-purple-400 rounded-xl"
                       {...field}
                       onChange={(e) => {
-                        field.onChange(e); // Update form field
-                        debounced(e.target.value); // Debounce username input
+                        field.onChange(e);
+                        debounced(e.target.value);
                       }}
                     />
                   </FormControl>
-                  {/* Loader for checking username */}
-                  {isCheckingUsername && <Loader2 className="animate-spin" />}
-                  {/* Username validation message */}
-                  <p
-                    className={`text-sm ${
-                      usernameMessage === "Username is unique"
-                        ? "text-green-500"
-                        : "text-red-500"
-                    } `}
-                  >
-                    {usernameMessage}
-                  </p>
+
+                  <div className="flex items-center space-x-2 mt-2">
+                    {isCheckingUsername && (
+                      <Loader2 className="w-4 h-4 animate-spin text-purple-600" />
+                    )}
+                    {usernameMessage && !isCheckingUsername && (
+                      <>
+                        {usernameMessage === "Username is unique" ? (
+                          <CheckCircle className="w-4 h-4 text-green-600" />
+                        ) : (
+                          <XCircle className="w-4 h-4 text-red-600" />
+                        )}
+                        <p
+                          className={`text-sm font-medium ${
+                            usernameMessage === "Username is unique"
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }`}
+                        >
+                          {usernameMessage}
+                        </p>
+                      </>
+                    )}
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* Email field */}
             <FormField
               name="email"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-300">Email</FormLabel>
+                  <FormLabel className="text-purple-800 font-medium">
+                    Email
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="email"
-                      className="focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-700 text-gray-300 border-gray-600"
+                      placeholder="your.email@example.com"
+                      className="bg-purple-50 border-2 border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-purple-800 placeholder:text-purple-400 rounded-xl"
                       {...field}
                     />
                   </FormControl>
@@ -184,18 +185,19 @@ function page() {
               )}
             />
 
-            {/* Password field */}
             <FormField
               name="password"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-300">Password</FormLabel>
+                  <FormLabel className="text-purple-800 font-medium">
+                    Password
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      className="focus:ring-2 focus:ring-teal-500 focus:outline-none bg-gray-700 text-gray-300 border-gray-600"
+                      className="bg-purple-50 border-2 border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-purple-800 placeholder:text-purple-400 rounded-xl"
                       type="password"
-                      placeholder="password"
+                      placeholder="Create a strong password"
                       {...field}
                     />
                   </FormControl>
@@ -204,33 +206,34 @@ function page() {
               )}
             />
 
-            {/* Submit button */}
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-teal-500 text-gray-900 hover:bg-amber-400 hover:text-gray-900"
+              className="w-full bg-gradient-to-r from-purple-600 to-violet-600 text-white hover:from-purple-700 hover:to-violet-700 shadow-lg hover:shadow-xl transition-all duration-300 py-3 rounded-xl font-medium flex items-center justify-center space-x-2"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
-                  wait...
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>Entering the Arena...</span>
                 </>
               ) : (
-                "Signup"
+                <>
+                  <UserPlus className="w-5 h-5" />
+                  <span>Join RoastRadar</span>
+                </>
               )}
             </Button>
           </form>
         </Form>
 
-        {/* Sign-in link */}
-        <div className="text-center mt-4">
-          <p className="text-gray-300">
-            Already a member?{" "}
+        <div className="text-center mt-6">
+          <p className="text-purple-700">
+            Already getting roasted?{" "}
             <Link
               href="/sign-in"
-              className="text-teal-400 hover:text-amber-400"
+              className="text-purple-600 hover:text-purple-800 font-semibold underline decoration-purple-400 hover:decoration-purple-600 transition-colors"
             >
-              Sign in
+              Sign In Here!
             </Link>
           </p>
         </div>
