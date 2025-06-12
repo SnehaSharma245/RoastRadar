@@ -27,12 +27,14 @@ import {
 } from "lucide-react";
 import MessageCard from "@/components/MessageCard";
 import { User } from "next-auth";
+import LoadingScreen from "@/components/LoadingScreen";
 
 function page() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const [baseUrl, setBaseUrl] = useState<string>("");
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const { toast } = useToast();
 
@@ -57,10 +59,10 @@ function page() {
     } catch (error) {
       const axiosError = error as AxiosError as AxiosError<ApiResponse>;
       toast({
-        title: "Error",
+        title: "🛡️ Settings Error",
         description:
           axiosError.response?.data.message ||
-          "Failed to fetch message settings",
+          "The roasting controls are acting up. Give them a moment to cool down!",
         variant: "destructive",
       });
     } finally {
@@ -77,8 +79,9 @@ function page() {
         setMessages(response.data.messages || []);
         if (refresh) {
           toast({
-            title: "Fresh Roasts Loaded!",
-            description: "Check out the latest burns",
+            title: "🔥 Fresh Roasts Loaded!",
+            description:
+              "New savage burns have arrived! Brace yourself for the heat.",
           });
         }
       } catch (error) {
@@ -119,9 +122,10 @@ function page() {
     } catch (error) {
       const axiosError = error as AxiosError as AxiosError<ApiResponse>;
       toast({
-        title: "Error",
+        title: "⚠️ Roast Radar Malfunction",
         description:
-          axiosError.response?.data.message || "Failed to fetch messages",
+          axiosError.response?.data.message ||
+          "The roasting radar is offline. Try scanning again!",
         variant: "destructive",
       });
     }
@@ -140,10 +144,15 @@ function page() {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
-      title: "URL Copied!",
-      description: "Share this link to receive epic roasts",
+      title: "🔗 Roast Link Copied!",
+      description:
+        "Your roasting profile link is ready to share. Let the savage games begin!",
     });
   };
+
+  if (isNavigating) {
+    return <LoadingScreen message="Loading dashboard..." />;
+  }
 
   if (!session || !session.user) {
     return (
