@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  title: "RoastFlex - Anonymous Roasting Platform",
+  title: "RoastRadar",
   description:
     "Get roasted anonymously! The ultimate platform for savage feedback and anonymous burns.",
 };
